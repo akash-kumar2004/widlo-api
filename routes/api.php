@@ -33,7 +33,7 @@ Route::middleware(['api.key'])->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
     });
 });
-Route::post('/genrate_otp', [GenrateotpController::class, 'sendotp']);
+Route::post('/phone_login', [GenrateotpController::class, 'sendotp']);
 Route::post('/verify_otp', [GenrateotpController::class, 'verify_otp']);
-Route::post('/sendmail_otp', [GenrateotpController::class, 'sendmail_otp']);
+Route::post('/email_login', [GenrateotpController::class, 'sendmail_otp']);
 Route::post('/verifymail_otp', [GenrateotpController::class, 'verifymail_otp']);
