@@ -81,16 +81,6 @@ class GenrateotpController extends Controller
             })
             ->where('otp', $request->otp)
             ->first();
-
-        // dd($verify_otp);
-
-        if (Carbon::now()->greaterThan($verify_otp->otp_expire)) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Expired otp'
-            ]);
-        }
-
         if ($verify_otp) {
             return response()->json([
                 'statu' => true,
@@ -102,6 +92,12 @@ class GenrateotpController extends Controller
                 'status' => false,
                 'message' => 'Invalid OTP'
             ], 401);
+        }
+        if (Carbon::now()->greaterThan($verify_otp->otp_expire)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Expired otp'
+            ]);
         }
     }
 
