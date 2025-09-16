@@ -169,7 +169,7 @@ class GenrateotpController extends Controller
 
                 return response()->json([
                     'status' => true,
-                    'message' => 'New OTP Send Your Email Successfully!'
+                    'message' => 'OTP has been resent to your email. Please check and enter the code.'
                 ], 200);
             }
         } catch (Exception $e) {
