@@ -16,7 +16,7 @@ class GatewayController extends Controller
             'gateway_id' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
-            'tag_id' => 'required' //mac_id
+            'tag_id' => 'required | array'  //mac_id
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -35,11 +35,21 @@ class GatewayController extends Controller
                     'last_seen' => $now,
                 ]);
 
-            DB::table('students')
-                ->where('tag_id', $request->tag_id)
-                ->update(['last_seen' => $now]);
+            // DB::table('students')
+            //     ->where('tag_id', $request->tag_id)
+            //     ->update(['last_seen' => $now]);
 
-
+            if (is_array($request->tag_id) || is_object($request->tag_id)) {
+                foreach ($request->tag_id as $tag) {
+                    DB::table('students')
+                        ->where('tag_id', $tag['tag_id'])
+                        ->update(['last_seen' => $now]);
+                }
+            } else {
+                DB::table('students')
+                    ->where('tag_id', $request->tag_id)
+                    ->update(['last_seen' => $now]);
+            }
 
             $model = DB::table('gateways')
                 ->where('gateway_id', $request->gateway_id)
