@@ -96,7 +96,7 @@ class GenrateotpController extends Controller
             // dd($verify_otp);
             if ($token) {
                 return response()->json([
-                    'statu' => true,
+                    'status' => true,
                     'message' => 'OTP Verify Successfully',
                     'token' => $token,
                     'std_data' => $std_data
@@ -216,7 +216,7 @@ class GenrateotpController extends Controller
                     ]);
                 }
                 return response()->json([
-                    'statu' => true,
+                    'status' => true,
                     'message' => 'OTP Verify Successfully',
                     'token' => $token,
                     'std_data' => $std_dtl

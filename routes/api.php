@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\SchoolController;
 use App\Http\Controllers\GatewayController;
 use App\Http\Controllers\otp\GenrateotpController;
 
@@ -43,6 +44,7 @@ Route::middleware(['api.key'])->group(
         Route::post('/verifymail_otp', [GenrateotpController::class, 'verifymail_otp']);
         Route::group(['middleware' => "auth:sanctum"], function () {
             Route::post('/update_gateway', [GatewayController::class, 'update_gateway']);
+            Route::post('/get_school_list', [SchoolController::class, 'school_list']);
         });
     }
 );
