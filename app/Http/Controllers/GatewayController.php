@@ -55,11 +55,9 @@ class GatewayController extends Controller
                 ->where('gateway_id', $request->gateway_id)
                 ->first();
 
-            if ($model) {
-                $status = Carbon::parse($model->last_seen) >= Carbon::now()->subMinutes(2) ? 'Online' : 'Offline';
-            } else {
-                $status = 'Offline';
-            }
+
+            $status = Carbon::parse($model->last_seen) >= Carbon::now()->subMinutes(2) ? 'Online' : 'Offline';
+
             return response()->json([
                 'status' => true,
                 'message' => 'Gateway and Student Data Updated Successfully',

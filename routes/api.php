@@ -41,8 +41,8 @@ Route::middleware(['api.key'])->group(
         Route::post('/verify_otp', [GenrateotpController::class, 'verify_otp']);
         Route::post('/email_login', [GenrateotpController::class, 'sendmail_otp']);
         Route::post('/verifymail_otp', [GenrateotpController::class, 'verifymail_otp']);
-        // Route::middleware('auth:sanctum')->group(function () {
+        Route::group(['middleware' => "auth:sanctum"], function () {
             Route::post('/update_gateway', [GatewayController::class, 'update_gateway']);
-        // });
+        });
     }
 );
