@@ -16,7 +16,7 @@ class GatewayController extends Controller
             'gateway_id' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
-            'tag_id' => 'required | array'  //mac_id
+            'tags' => 'required | array'  //mac_id
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -35,20 +35,26 @@ class GatewayController extends Controller
                     'last_seen' => $now,
                 ]);
 
-            // DB::table('students')
-            //     ->where('tag_id', $request->tag_id)
-            //     ->update(['last_seen' => $now]);
-
-            if (is_array($request->tag_id) || is_object($request->tag_id)) {
-                foreach ($request->tag_id as $tag) {
+            if (is_array($request->tags) || is_object($request->tags)) {
+                foreach ($request->tags as $tag) {
                     DB::table('students')
                         ->where('tag_id', $tag['tag_id'])
-                        ->update(['last_seen' => $now]);
+                        ->update([
+                            'gateway_id' => $request->gateway_id,
+                            'latitude' => $request->latitude,
+                            'longitude' => $request->longitude,
+                            'last_seen' => $now
+                        ]);
                 }
             } else {
                 DB::table('students')
-                    ->where('tag_id', $request->tag_id)
-                    ->update(['last_seen' => $now]);
+                    ->where('tag_id', $request->tags)
+                    ->update([
+                        'gateway_id' => $request->gateway_id,
+                        'latitude' => $request->latitude,
+                        'longitude' => $request->longitude,
+                        'last_seen' => $now
+                    ]);
             }
 
             $model = DB::table('gateways')
@@ -56,17 +62,15 @@ class GatewayController extends Controller
                 ->first();
 
 
-            $status = Carbon::parse($model->last_seen) >= Carbon::now()->subMinutes(2) ? 'Online' : 'Offline';
+            // $status = Carbon::parse($model->last_seen) >= Carbon::now()->subMinutes(2) ? 'Online' : 'Offline';
 
             return response()->json([
                 'status' => true,
-                'message' => 'Gateway and Student Data Updated Successfully',
-                'data' => $status
+                'message' => 'Gateway and Student Data Updated Successfully'
+                // 'data' => $status
             ]);
         } catch (Exception $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage()]);
         }
     }
 }
-
-

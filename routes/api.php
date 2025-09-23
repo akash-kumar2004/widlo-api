@@ -44,7 +44,7 @@ Route::middleware(['api.key'])->group(
         Route::post('/verifymail_otp', [GenrateotpController::class, 'verifymail_otp']);
         Route::group(['middleware' => "auth:sanctum"], function () {
             Route::post('/update_gateway', [GatewayController::class, 'update_gateway']);
-            Route::post('/get_school_list', [SchoolController::class, 'school_list']);
+            Route::get('/get_school_list', [SchoolController::class, 'school_list']);
         });
     }
 );
