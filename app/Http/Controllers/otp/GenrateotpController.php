@@ -225,20 +225,21 @@ class GenrateotpController extends Controller
             $std_dtl = Students::where('email_address', $request->email)
                 ->where('otp', $request->otp)
                 ->first();
-            $token = $std_dtl->createToken('API Token')->plainTextToken;
             if ($std_dtl) {
+                $token = $std_dtl->createToken('API Token')->plainTextToken;
                 if (Carbon::now()->greaterThan($std_dtl->otp_expire)) {
                     return response()->json([
                         'status' => false,
                         'message' => 'Expired otp'
                     ]);
+                } else {
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'OTP Verify Successfully',
+                        'token' => $token,
+                        'std_data' => $std_dtl
+                    ], 200);
                 }
-                return response()->json([
-                    'status' => true,
-                    'message' => 'OTP Verify Successfully',
-                    'token' => $token,
-                    'std_data' => $std_dtl
-                ], 200);
             } else {
                 return response()->json([
                     'status' => false,
