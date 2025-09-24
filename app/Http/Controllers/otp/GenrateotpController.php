@@ -67,6 +67,11 @@ class GenrateotpController extends Controller
                         'message' => 'You are not exist'
                     ], 401);
                 }
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Plese Check Button Type.'
+                ], 401);
             }
         } catch (Exception $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage()]);
