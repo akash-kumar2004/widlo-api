@@ -97,8 +97,23 @@ class GenrateotpController extends Controller
             })
                 ->where('otp', $request->otp)
                 ->first();
+
+            if (!$std_data) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Invalid OTP'
+                ], 401);
+            }
+
+            if (Carbon::now()->greaterThan($std_data->otp_expire)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Expired OTP'
+                ], 401);
+            }
+
             $token = $std_data->createToken('API Token')->plainTextToken;
-            // dd($verify_otp);
+
             if ($token) {
                 return response()->json([
                     'status' => true,
@@ -111,12 +126,6 @@ class GenrateotpController extends Controller
                     'status' => false,
                     'message' => 'Invalid OTP'
                 ], 401);
-            }
-            if (Carbon::now()->greaterThan($verify_otp->otp_expire)) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Expired otp'
-                ]);
             }
         } catch (Exception $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage()]);
@@ -218,7 +227,6 @@ class GenrateotpController extends Controller
                 ->first();
             $token = $std_dtl->createToken('API Token')->plainTextToken;
             if ($std_dtl) {
-                // dd($std_dtl);
                 if (Carbon::now()->greaterThan($std_dtl->otp_expire)) {
                     return response()->json([
                         'status' => false,
