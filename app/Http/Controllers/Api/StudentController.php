@@ -16,6 +16,10 @@ class StudentController extends Controller
             if ($student) {
                 $class = DB::table('classrooms')->where('classroom_name', $student->class_section)->first();
                 $bus = DB::table('schoolbuses')->where('bus_number', $student->assign_bus)->first();
+                $class_gateway = DB::table('gateways')->where('gateway_name', $class->assign_gateway)->first();
+                $bus_gateway = DB::table('gateways')->where('gateway_name', $bus->assign_gateway)->first();
+                $busroute = DB::table('busroutes')->where('gateway_name', $bus->assign_route)->first();
+
                 return response()->json([
                     'status' => true,
                     'message' => 'Student Details Fetch Successfully.',
