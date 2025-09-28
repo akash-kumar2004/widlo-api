@@ -83,6 +83,7 @@ class StudentController extends Controller
 
 
             $student = $request->user();
+            $gateway_type = DB::tabble('gateways')->where('gateway_id', $student->gateway_id)->select('installed_at')->get();
             if ($student) {
                 $responseData = [
                     'id'                => $student->id,
@@ -90,6 +91,7 @@ class StudentController extends Controller
                     'latitude'          => $student->latitude,
                     'longitude'         => $student->longitude,
                     'gateway_id'        => $student->gateway_id,
+                    'gateway_type'      => $gateway_type,
                     'last_seen'         => $student->last_seen,
                 ];
 
