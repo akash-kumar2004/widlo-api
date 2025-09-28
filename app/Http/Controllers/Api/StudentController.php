@@ -45,34 +45,15 @@ class StudentController extends Controller
                 }
 
                 $responseData = [
-                    'id'            => $student->id,
-                    'student_name'  => $student->name,
-                    'address'       => $student->address,
-                    'bus_detail'    => $bus ? [
-                        'id'           => $bus->id,
-                        'bus_number'   => $bus->bus_number,
-                        'driver_name'  => $bus->driver_name,
-                        'bus_gateway'  => $bus_gateway ? [
-                            'id'          => $bus_gateway->id,
-                            'gateway_id'  => $bus_gateway->gateway_id,
-                            'gateway_name' => $bus_gateway->gateway_name,
-                        ] : null,
-                        'bus_route'    => $bus_route ? [
-                            'id'         => $bus_route->id,
-                            'route_number'   => $bus_route->route_number,
-                            'route_name' => $bus_route->route_name,
-                            'route_lat_lng_list' => $bus_route->route_lat_lng_list,
-                        ] : null,
+                    'student' => $student,
+                    'bus_detail' => $bus ? [
+                        'bus'         => $bus,
+                        'bus_gateway' => $bus_gateway ?: null,
+                        'bus_route'   => $bus_route ?: null,
                     ] : null,
                     'class_details' => $class ? [
-                        'id'               => $class->id,
-                        'classroom_name'   => $class->classroom_name,
-                        'class_teacher_name' => $class->class_teacher_name,
-                        'class_gateway'    => $class_gateway ? [
-                            'id'          => $class_gateway->id,
-                            'gateway_id'  => $class_gateway->gateway_id,
-                            'gateway_name' => $class_gateway->gateway_name,
-                        ] : null,
+                        'class'         => $class,
+                        'class_gateway' => $class_gateway ?: null,
                     ] : null,
                 ];
 
@@ -99,16 +80,17 @@ class StudentController extends Controller
     public function current_location(Request $request)
     {
         try {
+
+
             $student = $request->user();
             if ($student) {
                 $responseData = [
                     'id'                => $student->id,
-                    'student_name'      => $student->student_name,   // or $student->student_name
+                    'student_name'      => $student->student_name,
                     'latitude'          => $student->latitude,
                     'longitude'         => $student->longitude,
                     'gateway_id'        => $student->gateway_id,
-                    // 'gateway_type'      => $student->gateway_type,
-                    'lastseen_datetime' => $student->lastseen_datetime,
+                    'last_seen'         => $student->last_seen,
                 ];
 
 
