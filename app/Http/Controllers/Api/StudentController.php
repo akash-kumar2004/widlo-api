@@ -83,8 +83,8 @@ class StudentController extends Controller
 
 
             $student = $request->user();
-            $gateway_type = DB::tabble('gateways')->where('gateway_id', $student->gateway_id)->select('installed_at')->get();
             if ($student) {
+                $gateway_type = DB::table('gateways')->where('gateway_id', $student->gateway_id)->select('installed_at')->get();
                 $responseData = [
                     'id'                => $student->id,
                     'student_name'      => $student->student_name,
