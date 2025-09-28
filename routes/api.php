@@ -46,6 +46,7 @@ Route::middleware(['api.key'])->group(
         Route::get('/get_school_list', [SchoolController::class, 'school_list']);
         Route::group(['middleware' => "auth:sanctum"], function () {
             Route::get('get_id_card', [StudentController::class, 'getidcard']);
+            Route::get('current_location', [StudentController::class, 'current_location']);
         });
     }
 );
