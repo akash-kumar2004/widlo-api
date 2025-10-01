@@ -91,7 +91,7 @@ class StudentController extends Controller
                     'latitude'          => $student->latitude,
                     'longitude'         => $student->longitude,
                     'gateway_id'        => $student->gateway_id,
-                    'gateway_type'      => $gateway_type,
+                    'gateway_type'      => @$gateway_type->installed_at,
                     'last_seen'         => $student->last_seen,
                 ];
 
