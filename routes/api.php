@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\SchoolController;
 use App\Http\Controllers\Api\StudentController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\GatewayController;
 use App\Http\Controllers\otp\GenrateotpController;
 
@@ -47,6 +48,8 @@ Route::middleware(['api.key'])->group(
         Route::group(['middleware' => "auth:sanctum"], function () {
             Route::get('get_id_card', [StudentController::class, 'getidcard']);
             Route::get('current_location', [StudentController::class, 'current_location']);
+            Route::post('send_message', [ChatController::class, 'chat_send']);
+            Route::get('get_message', [ChatController::class, 'get_message']);
         });
     }
 );
