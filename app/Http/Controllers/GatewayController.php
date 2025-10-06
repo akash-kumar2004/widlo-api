@@ -35,8 +35,13 @@ class GatewayController extends Controller
                     'last_seen' => $now,
                 ]);
 
+            $gateways_cls = DB::table('gateways')
+                ->where('gateway_id', $request->gateway_id)
+                ->first();
+
             if (is_array($request->tags) || is_object($request->tags)) {
                 foreach ($request->tags as $tag) {
+                    // Update student location and gateway info
                     DB::table('students')
                         ->where('tag_id', $tag['tag_id'])
                         ->update([
@@ -45,6 +50,20 @@ class GatewayController extends Controller
                             'longitude' => $request->longitude,
                             'last_seen' => $now
                         ]);
+
+                    // Fetch student record (expecting only one per tag_id)
+                    $student = DB::table('students')
+                        ->where('tag_id', $tag['tag_id'])
+                        ->first();
+                    // Check if student exists
+                    if ($student && $gateways_cls->installed_at === 'classroom') {
+                        DB::table('attendance')->insert([
+                            'student_id' => $student->student_id,
+                            'status' => 'Present',
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                    }
                 }
             } else {
                 DB::table('students')

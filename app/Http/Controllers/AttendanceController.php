@@ -15,31 +15,15 @@ class AttendanceController extends Controller
         $tagId = $user->tag_id;
         $studentId = $user->student_id;
 
-        
-        $gateway = DB::table('gateways')
-            ->where('gateway_id', $gatewayId)
-            ->select('installed_at')
-            ->first();
 
-        if ($gateway && $gateway->installed_at === 'classroom') {
+        $attendance = DB::table('attendance')
+            ->where('student_id', $studentId)->get();
 
-            DB::table('attendance')->insert([
-                'student_id' => $studentId,
-                'tag_id' => $tagId,
-                'gateway_id' => $gatewayId,
-                'status' => 'Present',
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
-
+        if ($attendance) {
             return response()->json([
                 'status' => true,
-                'message' => 'Student marked as Present',
-                'data' => [
-                    'student_id' => $studentId,
-                    'gateway_id' => $gatewayId,
-                    'status' => 'Present'
-                ]
+                'message' => 'Student as Present',
+                'data' => $attendance
             ], 200);
         } else {
             return response()->json([
