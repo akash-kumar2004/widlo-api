@@ -43,6 +43,9 @@ class ChatController extends Controller
             $query->where('from_id', $to_id)->where('to_id', $from_id);
         })->orderBy('created_at', 'asc')->get();
 
-        return response()->json($messages);
+        return response()->json([
+            'success' => true,
+            'data' => $messages
+        ]);
     }
 }
