@@ -51,7 +51,8 @@ Route::middleware(['api.key'])->group(
             Route::get('current_location', [StudentController::class, 'current_location']);
             Route::post('send_message', [ChatController::class, 'chat_send']);
             Route::get('get_message', [ChatController::class, 'get_message']);
-            Route::get('get_attendance',[AttendanceController::class, 'get_attendance']);
+            Route::get('get_attendance', [AttendanceController::class, 'get_attendance']);
+            Route::post('/logout', [GenrateotpController::class, 'logout']);
         });
     }
 );

@@ -250,4 +250,14 @@ class GenrateotpController extends Controller
             return response()->json(['status' => false, 'message' => $e->getMessage()]);
         }
     }
+
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Logged out successfully'
+        ]);
+    }
 }
