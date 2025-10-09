@@ -57,14 +57,14 @@ class GatewayController extends Controller
                         ->first();
 
                     $noAttendanceToday  = !DB::table('attendance')
-                        ->where('student_id', $student->student_id)
+                        ->where('id', $student->id)
                         ->whereDate('created_at', today())
                         ->exists();
 
                     // Check if student exists
                     if ($student && $gateways_cls->installed_at === 'classroom' && $noAttendanceToday) {
                         DB::table('attendance')->insert([
-                            'student_id' => $student->student_id,
+                            'student_id' => $student->id,
                             'status' => 'Present',
                             'created_at' => now(),
                             'updated_at' => now(),
