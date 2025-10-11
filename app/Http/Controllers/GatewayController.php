@@ -55,7 +55,7 @@ class GatewayController extends Controller
                     $student = DB::table('students')
                         ->where('tag_id', $tag['tag_id'])
                         ->first();
-
+                    if ($student) {
                     $noAttendanceToday  = !DB::table('attendance')
                         ->where('id', $student->id)
                         ->whereDate('created_at', today())
@@ -71,6 +71,7 @@ class GatewayController extends Controller
                         ]);
                     }
                 }
+            }
             } else {
                 DB::table('students')
                     ->where('tag_id', $request->tags)
