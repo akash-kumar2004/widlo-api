@@ -13,11 +13,11 @@ class AttendanceController extends Controller
         $user = $request->user();
         $gatewayId = $user->gateway_id;
         $tagId = $user->tag_id;
-        $studentId = $user->student_id;
+        $studentId = $user->id;
 
 
         $attendance = DB::table('attendance')
-            ->where('student_id', $studentId)->get();
+            ->where('id', $studentId)->get();
 
         if ($attendance) {
             return response()->json([
