@@ -42,7 +42,7 @@ class ChatController extends Controller
         })->orWhere(function ($query) use ($from_id, $to_id) {
             $query->where('from_id', $to_id)->where('to_id', $from_id);
         })->orderBy('created_at', 'asc')->get();
-        $update = Message::where('from_id', $from_id)->where('to_id', $to_id)->update(['status' => '1']);
+        // $update = Message::where('from_id', $from_id)->where('to_id', $to_id)->update(['status' => '1']);
         if ($messages->isEmpty()) {
             return response()->json([
                 'success' => false,
