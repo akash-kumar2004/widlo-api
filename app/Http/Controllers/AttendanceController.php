@@ -17,7 +17,7 @@ class AttendanceController extends Controller
 
 
         $attendance = DB::table('attendance')
-            ->where('id', $studentId)->get();
+            ->where('student_id', $studentId)->get();
 
         if ($attendance) {
             return response()->json([

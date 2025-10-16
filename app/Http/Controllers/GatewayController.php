@@ -56,22 +56,21 @@ class GatewayController extends Controller
                         ->where('tag_id', $tag['tag_id'])
                         ->first();
                     if ($student) {
-                    $noAttendanceToday  = !DB::table('attendance')
-                        ->where('id', $student->id)
-                        ->whereDate('created_at', today())
-                        ->exists();
-
-                    // Check if student exists
-                    if ($student && $gateways_cls->installed_at === 'classroom' && $noAttendanceToday) {
-                        DB::table('attendance')->insert([
-                            'student_id' => $student->id,
-                            'status' => 'Present',
-                            'created_at' => now(),
-                            'updated_at' => now(),
-                        ]);
+                        $noAttendanceToday  = !DB::table('attendance')
+                            ->where('student_id', $student->id)
+                            ->whereDate('created_at', today())
+                            ->exists();
+                        // Check if student exists
+                        if ($student && $gateways_cls->installed_at === 'classroom' && $noAttendanceToday) {
+                            DB::table('attendance')->insert([
+                                'student_id' => $student->id,
+                                'status' => 'Present',
+                                'created_at' => now(),
+                                'updated_at' => now(),
+                            ]);
+                        }
                     }
                 }
-            }
             } else {
                 DB::table('students')
                     ->where('tag_id', $request->tags)
